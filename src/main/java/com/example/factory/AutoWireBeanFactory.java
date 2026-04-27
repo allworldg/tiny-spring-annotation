@@ -1,14 +1,16 @@
 package com.example.factory;
 
 import com.example.bean.BeanDefinition;
+import com.example.bean.BeanReference;
 import com.example.bean.PropertyValue;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 
 public class AutoWireBeanFactory extends AbstractBeanFactory {
-    @Override
     public Object createBean(BeanDefinition beanDefinition) throws Exception {
         Object bean = Class.forName(beanDefinition.getClassName()).newInstance();
+        beanDefinition.setValue(bean);
         applyPropertyValues(bean, beanDefinition);
         return bean;
     }
@@ -17,8 +19,13 @@ public class AutoWireBeanFactory extends AbstractBeanFactory {
         for (PropertyValue property : definition.getPropertyValues()) {
             Field declaredField = bean.getClass().getDeclaredField(property.getName());
             declaredField.setAccessible(true);
-            declaredField.set(bean, property.getValue());
+            Object value = property.getValue();
+            if(value instanceof BeanReference){
+                value = getBean(property.getName());
+            }
+            declaredField.set(bean, value);
         }
     }
+
 
 }

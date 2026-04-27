@@ -1,17 +1,15 @@
 package com.example.bean;
 
-public class PropertyValue {
-    private String name;
-    private Object value;
 
-    public PropertyValue(){}
-    public PropertyValue(String name, Object value) {
+public class BeanReference {
+    public BeanReference(){}
+
+    public BeanReference(String name, Object value) {
         this.name = name;
         this.value = value;
     }
 
     public String getName() {
-
         return name;
     }
 
@@ -27,4 +25,6 @@ public class PropertyValue {
         this.value = value;
     }
 
+    private String name;
+    private Object value;
 }

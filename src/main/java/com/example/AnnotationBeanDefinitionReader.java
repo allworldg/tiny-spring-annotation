@@ -1,8 +1,10 @@
 package com.example;
 
+import com.example.annotation.Autowired;
 import com.example.annotation.Component;
 import com.example.annotation.Value;
 import com.example.bean.BeanDefinition;
+import com.example.bean.BeanReference;
 import com.example.bean.PropertyValue;
 import com.example.util.ClassScanner;
 import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation;
@@ -41,12 +43,24 @@ public class AnnotationBeanDefinitionReader implements BeanDefinitionReader {
         beanDefinition.setClassName(beanClass.getName());
         Field[] fields = beanClass.getDeclaredFields();
         for (Field field : fields) {
+            PropertyValue propertyValue = new PropertyValue();
             if (field.isAnnotationPresent(Value.class)) {
                 Value annotation = field.getAnnotation(Value.class);
                 String fieldName = field.getName();
                 String fieldValue = annotation.value();
-                beanDefinition.getPropertyValues().add(new PropertyValue(fieldName, fieldValue));
+                propertyValue.setName(fieldName);
+                propertyValue.setValue(fieldValue);
+            }else if(field.isAnnotationPresent(Autowired.class)){
+                String fieldName = field.getName();
+                BeanReference reference = new BeanReference();
+                reference.setName(fieldName);
+                propertyValue.setName(fieldName);
+                propertyValue.setValue(reference);
             }
+            if (!propertyValue.getName().isEmpty()){
+                beanDefinition.getPropertyValues().add(propertyValue);
+            }
+
         }
         return beanDefinition;
 

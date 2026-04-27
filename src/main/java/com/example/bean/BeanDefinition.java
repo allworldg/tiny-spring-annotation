@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BeanDefinition {
     public BeanDefinition(){}
-    private Object bean;
+    private Object value;
     private String className;
 
     private final List<PropertyValue> propertyValues = new ArrayList<>();
@@ -15,12 +15,12 @@ public class BeanDefinition {
     }
 
 
-    public Object getBean() {
-        return bean;
+    public Object getValue() {
+        return value;
     }
 
-    public void setBean(Object bean) {
-        this.bean = bean;
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     public String getClassName() {

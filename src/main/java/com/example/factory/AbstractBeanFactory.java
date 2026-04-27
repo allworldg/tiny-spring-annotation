@@ -1,30 +1,50 @@
 package com.example.factory;
 
 import com.example.bean.BeanDefinition;
-import com.example.bean.PropertyValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractBeanFactory implements BeanFactory {
+    public Map<String, BeanDefinition> getBeanDefinitionMap() {
+        return beanDefinitionMap;
+    }
+
     // <beanName,value>
-    private final Map<String, BeanDefinition> map = new HashMap<>();
+    private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition definition) {
-        try {
-            Object bean = createBean(definition);
-            definition.setBean(bean);
-            map.put(beanName, definition);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        beanDefinitionMap.put(beanName, definition);
     }
 
     @Override
     public BeanDefinition getBeanDefinition(String beanName) {
-        return map.get(beanName);
+        return beanDefinitionMap.get(beanName);
     }
 
+    public void initialBeans() throws Exception {
+        for (Map.Entry<String, BeanDefinition> entry : getBeanDefinitionMap().entrySet()) {
+            String beanName = entry.getKey();
+            getBean(beanName);
+        }
+    }
+
+    public Object getBean(String beanName) throws Exception {
+        BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
+        Object bean = beanDefinition.getValue();
+        if(beanDefinition==null){
+            throw new IllegalArgumentException(beanName+" is not defined");
+        }
+        if(bean==null){
+            bean = createBean(beanDefinition);
+        }
+        return bean;
+    }
+
+
     public abstract Object createBean(BeanDefinition beanDefinition) throws Exception;
+
 }
