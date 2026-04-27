@@ -1,10 +1,11 @@
 package com.example;
 
+import com.example.annotation.Autowired;
 import com.example.annotation.Component;
 import com.example.annotation.Value;
 import com.sun.xml.internal.bind.v2.runtime.reflect.Accessor;
 
-@Component("helloservice")
+@Component("helloService")
 public class HelloService {
     public HelloService() {
 
@@ -12,6 +13,19 @@ public class HelloService {
 
     @Value("hello fke")
     private String text;
+
+
+    @Autowired
+    private OutputService outputService;
+
+    public OutputService getOutputService() {
+        return outputService;
+    }
+
+    public void setOutputService(OutputService outputService) {
+        this.outputService = outputService;
+    }
+
 
     public HelloService(String text) {
         this.text = text;

@@ -15,7 +15,6 @@ public abstract class AbstractBeanFactory implements BeanFactory {
     // <beanName,value>
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 
-    @Override
     public void registerBeanDefinition(String beanName, BeanDefinition definition) {
         beanDefinitionMap.put(beanName, definition);
     }
@@ -32,6 +31,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         }
     }
 
+    @Override
     public Object getBean(String beanName) throws Exception {
         BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
         Object bean = beanDefinition.getValue();
