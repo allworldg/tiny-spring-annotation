@@ -8,16 +8,16 @@ public class OutputService {
     public OutputService() {
     }
 
-    public HelloService getHelloService() {
+    public HelloServiceImpl getHelloService() {
         return helloService;
     }
 
-    public void setHelloService(HelloService helloService) {
+    public void setHelloService(HelloServiceImpl helloService) {
         this.helloService = helloService;
     }
 
 
     @Autowired
-    private HelloService helloService;
+    private HelloServiceImpl helloService;
 
 }

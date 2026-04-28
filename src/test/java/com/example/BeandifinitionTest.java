@@ -3,7 +3,6 @@ package com.example;
 import com.example.bean.BeanDefinition;
 import com.example.factory.AbstractBeanFactory;
 import com.example.factory.AutoWireBeanFactory;
-import com.example.factory.BeanFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -21,7 +20,7 @@ public class BeandifinitionTest {
 
         factory.initialBeans();
 
-        HelloService service = (HelloService) factory.getBeanDefinition("helloService").getValue();
+        HelloServiceImpl service = (HelloServiceImpl) factory.getBeanDefinition("helloService").getValue();
         service.sayFk();
 
 
